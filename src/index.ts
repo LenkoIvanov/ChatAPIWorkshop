@@ -22,6 +22,7 @@ const messages: Message[] = [];
 
 const app: Express = express();
 app.use(cors());
+app.use(express.json());
 app.use(
     express.urlencoded({
       extended: true,
@@ -30,10 +31,8 @@ app.use(
 
 
 function verifyAccessToken(token: string) {
-    const secret = 'your-secret-key';
-  
     try {
-      const decoded = jwt.verify(token, secret);
+      const decoded = jwt.verify(token, secret_key as string);
       return { success: true, data: decoded };
     } catch (error) {
       return { success: false, error };
@@ -71,6 +70,7 @@ app.post("/auth/register", async (req: Request, res: Response) => {
          return;
       }
 
+      users.push(newUser);
       res.status(200).json({
         status: 201,
         success: true,
@@ -87,10 +87,8 @@ app.post("/auth/register", async (req: Request, res: Response) => {
 
 
 
-  app.post("/auth/login", async (req: any, res: any) => {
+  app.post("/auth/login", async (req: Request, res: Response) => {
     try {
-        console.log('req.body', req);
-        
       const loginCredentials = req.body;
       const userIndex = users.findIndex((user: User) => user.username === loginCredentials.username);
 
@@ -105,7 +103,7 @@ app.post("/auth/register", async (req: Request, res: Response) => {
   
   
       const loginUser = users[userIndex];
-      const isPasswordMatched = users[userIndex].password === loginCredentials.password;
+      const isPasswordMatched = loginUser.password === loginCredentials.password;
   
       if (!isPasswordMatched) {
         res.status(400).json({
@@ -124,7 +122,6 @@ app.post("/auth/register", async (req: Request, res: Response) => {
         }
       );
   
-      // send the response
       res.status(200).json({
         status: 200,
         success: true,
@@ -132,7 +129,6 @@ app.post("/auth/register", async (req: Request, res: Response) => {
         token: token,
       });
     } catch (error: any) {
-      // Send the error message to the client
       res.status(400).json({
         status: 400,
         message: error.message.toString(),
@@ -144,7 +140,6 @@ app.post("/auth/register", async (req: Request, res: Response) => {
     try {
       res.send(messages);
     } catch (error: any) {
-      // Send the error message to the client
       res.status(400).json({
         status: 400,
         message: error.message.toString(),
@@ -154,9 +149,8 @@ app.post("/auth/register", async (req: Request, res: Response) => {
 
   app.get("/",  async (req: Request, res: Response) => {
     try {
-      res.send("HI ALEK");
+      res.send("Chat App");
     } catch (error: any) {
-      // Send the error message to the client
       res.status(400).json({
         status: 400,
         message: error.message.toString(),
@@ -166,18 +160,36 @@ app.post("/auth/register", async (req: Request, res: Response) => {
 
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({
+    verifyClient: function (info: any, cb) {
+        var token = info.req.headers.token
+        if (!token)
+            cb(false, 401, 'Unauthorized')
+        else {
+            jwt.verify(token as string, secret_key as string, function (err, decoded: any) {
+                if (err) {
+                    cb(false, 401, 'Unauthorized')
+                } else {
+                    info.req.username = decoded.username
+                    cb(true)
+                }
+            })
+
+        }
+    },
+    server 
+});
 
 wss.on('connection', (ws: WebSocket, info: any) => {
     ws.on('message', (message: string) => {
         messages.push({text: message.toString(), author: info.username})
         wss.clients
             .forEach(client => {
-                client.send(`Hello, broadcast message -> ${message}`);
+                client.send(JSON.stringify(messages));
             });
     });
 
-    ws.send('Hi there, I am a WebSocket server');
+    ws.send('Connected to WebSocket server');
 });
 
 server.listen(port, () => {
