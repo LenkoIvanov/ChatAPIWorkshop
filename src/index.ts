@@ -147,6 +147,17 @@ app.post("/auth/register", async (req: Request, res: Response) => {
     }
   });
 
+  app.get("/users", authenticateToken,  async (req: Request, res: Response) => {
+    try {
+      res.send(users);
+    } catch (error: any) {
+      res.status(400).json({
+        status: 400,
+        message: error.message.toString(),
+      });
+    }
+  });
+
   app.get("/",  async (req: Request, res: Response) => {
     try {
       res.send("Chat App");
