@@ -1,3 +1,3 @@
-export const register = "localhost:8888/auth/register";
+export const registerUrl = "/auth/register";
 
-export const login = "localhost:8888/auth/login";
+export const loginUrl = "/auth/login";
