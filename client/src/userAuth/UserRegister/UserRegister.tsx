@@ -1,6 +1,12 @@
 import styles from "./UserRegister.module.scss";
 
-export const UserRegister = () => {
+interface UserRegisterProps {
+  handleNavigateBack: () => void;
+}
+
+export const UserRegister = (props: UserRegisterProps) => {
+  const { handleNavigateBack } = props;
+
   return (
     <form className={styles.registrationForm}>
       <h3>Register a new user: </h3>
@@ -8,7 +14,12 @@ export const UserRegister = () => {
       <input type="text"></input>
       <label>Password</label>
       <input type="text"></input>
-      <button type="submit">Register</button>
+      <div className={styles.btnContainer}>
+        <button onClick={handleNavigateBack} className={styles.backBtn}>
+          Back
+        </button>
+        <button type="submit">Register</button>
+      </div>
     </form>
   );
 };

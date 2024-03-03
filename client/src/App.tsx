@@ -1,12 +1,13 @@
 import "./App.css";
-import { UserLogin } from "./userAuth/UserLogin/UserLogin";
-import { UserRegister } from "./userAuth/UserRegister/UserRegister";
+import { UserAuth } from "./userAuth/UserAuth";
+import { authTokenKey } from "./utils/constants";
 
 function App() {
+  const authenticationToken = sessionStorage.getItem(authTokenKey);
+
   return (
     <div className="mainContainer">
-      <UserRegister />
-      <UserLogin />
+      {authenticationToken ? <div>ChatApp</div> : <UserAuth />}
     </div>
   );
 }

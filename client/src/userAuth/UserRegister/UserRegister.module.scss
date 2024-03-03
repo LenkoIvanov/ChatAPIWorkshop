@@ -31,5 +31,18 @@
     &:hover {
       background-color: #af92f9;
     }
+
+    &.backBtn {
+      background-color: #4deeea;
+
+      &:hover {
+        background-color: #cdfaf9;
+      }
+    }
+  }
+
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
   }
 }
