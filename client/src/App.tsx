@@ -1,4 +1,5 @@
 import "./App.css";
+import { Chat } from "./Chat/Chat";
 import { UserAuth } from "./userAuth/UserAuth";
 import { authTokenKey } from "./utils/constants";
 
@@ -7,7 +8,7 @@ function App() {
 
   return (
     <div className="mainContainer">
-      {authenticationToken ? <div>ChatApp</div> : <UserAuth />}
+      {authenticationToken ? <Chat /> : <UserAuth />}
     </div>
   );
 }
