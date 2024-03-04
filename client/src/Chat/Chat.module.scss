@@ -1,0 +1,42 @@
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .messagesWindow {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    height: 650px;
+    width: fit-content;
+  }
+
+  .sendMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+
+    input {
+      width: 350px;
+      height: 35px;
+    }
+
+    button {
+      background-color: #00a0d4;
+      color: white;
+      width: 100px;
+      height: 45px;
+      border-radius: 20px;
+      margin-left: 10px;
+      align-self: center;
+      cursor: pointer;
+      border: none;
+
+      &:hover {
+        background-color: #88e2ff;
+      }
+    }
+  }
+}
