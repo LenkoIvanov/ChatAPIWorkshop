@@ -172,28 +172,26 @@ app.post("/auth/register", async (req: Request, res: Response) => {
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({
-    verifyClient: function (info: any, cb) {
-        var token = info.req.headers.token
-        if (!token)
-            cb(false, 401, 'Unauthorized')
-        else {
-            jwt.verify(token as string, secret_key as string, function (err, decoded: any) {
-                if (err) {
-                    cb(false, 401, 'Unauthorized')
-                } else {
-                    info.req.username = decoded.username
-                    cb(true)
-                }
-            })
-
-        }
-    },
-    server 
+  server 
 });
 
-wss.on('connection', (ws: WebSocket, info: any) => {
+wss.on('connection', (ws: WebSocket, request: any) => {
+  const token = request.url.split('?token=')[1]; // Extract token from URL
+    if (!token) {
+        ws.close(401, 'Unauthorized: Token missing');
+        return;
+    }
+    let username = '0';
+  
+    jwt.verify(token, secret_key as any, function(err: any, decoded: any) {
+        if (err) {
+            ws.close(401, 'Unauthorized: Invalid token');
+            return;
+        }
+        username = decoded.username;
+    });
     ws.on('message', (message: string) => {
-        messages.push({text: message.toString(), author: info.username})
+        messages.push({text: message.toString(), author: username})
         wss.clients
             .forEach(client => {
                 client.send(JSON.stringify(messages));

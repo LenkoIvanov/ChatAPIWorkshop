@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div className="mainContainer">
-      {authenticationToken ? <Chat /> : <UserAuth />}
+      {authenticationToken ? <Chat authenticationToken={authenticationToken}/> : <UserAuth />}
     </div>
   );
 }
