@@ -2,10 +2,11 @@ import express, { Express, Request, Response } from "express";
 import * as http from "http";
 import * as WebSocket from "ws";
 import { AddressInfo } from "ws";
-import { Message, User } from "./models";
+import { Author, Message, User } from "./models";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 import cors from "cors";
+import { getRandomNeonColor } from "./colors";
 
 dotenv.config();
 const secret_key = process.env.SECRET_KEY;
@@ -15,11 +16,17 @@ const users: User[] = [
   {
     username: "admin",
     password: "admin",
-  },
+    color: "#3a3843"
+  }
 ];
 
 const messages: Message[] = [
-  { author: "admin", text: "Hello from the WebSocket!" },
+  { 
+    author: {
+      username: "admin",
+      color: "#3a3843"
+    }, 
+    text: "Hello from the WebSocket!" }
 ];
 
 const app: Express = express();
@@ -61,6 +68,7 @@ function authenticateToken(req: any, res: any, next: any) {
 app.post("/auth/register", async (req: Request, res: Response) => {
   try {
     const newUser = req.body;
+    newUser.color = getRandomNeonColor();
     const existingUserName = users.findIndex(
       (user: User) => user.username === newUser.username
     );
@@ -182,26 +190,34 @@ wss.on("connection", (ws: WebSocket, request: any) => {
     ws.close(401, "Unauthorized: Token missing");
     return;
   }
-  let username = "0";
+  let author: Author;
 
   jwt.verify(token, secret_key as any, function (err: any, decoded: any) {
     if (err) {
       ws.close(401, "Unauthorized: Invalid token");
       return;
     }
-    username = decoded.username;
+
+    const color = users.find(
+      (user: User) => user.username === decoded.username
+    )?.color ?? '#c5c4ff';
+
+    author = {
+      username: decoded.username,
+      color
+    }
   });
 
   ws.on("message", (message: string) => {
     if (message.toString() !== "ccc") {
-      messages.push({ text: message.toString(), author: username });
+      messages.push({ text: message.toString(), author });
     }
     wss.clients.forEach((client) => {
       client.send(JSON.stringify(messages));
     });
   });
 
-  ws.send("Connected to WebSocket server");
+  ws.send(JSON.stringify(messages));
 });
 
 server.listen(port, () => {

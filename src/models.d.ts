@@ -1,9 +1,12 @@
-export type User = {
+export interface User {
     username: string,
-    password: string
+    password: string,
+    color: string
 }
+
+export type Author = Pick<User, "username" | "color">;
 
 export type Message = {
     text: string,
-    author: string
+    author: Author
 }

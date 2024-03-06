@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import { currentUserColor, getRandomNeonColor } from "../../utils/chatColors";
 import { authTokenKey } from "../../utils/constants";
 import { ChatBubble } from "../ChatBubble/ChatBubble";
 import { MessageBox } from "../MessageBox/MessageBox";
@@ -8,7 +7,10 @@ import { JWTToken } from "../../utils/interfaces";
 
 interface MessageProps {
   messageText: string;
-  sender: string;
+  sender: {
+    username: string,
+    color: string
+  }
   sentDate: Date;
 }
 
@@ -19,13 +21,9 @@ export const Message = (props: MessageProps) => {
     const storedToken = sessionStorage.getItem(authTokenKey);
     if (storedToken) {
       const decodedToken = jwtDecode<JWTToken>(storedToken);
-      return decodedToken.username === sender ? true : false;
+      return decodedToken.username === sender.username ? true : false;
     }
     return false; //fallback
-  };
-
-  const getChatBubbleColor = (): string => {
-    return isSenderLoggedIn() ? currentUserColor : getRandomNeonColor();
   };
 
   return (
@@ -35,7 +33,7 @@ export const Message = (props: MessageProps) => {
       }`}
     >
       <MessageBox messageTxt={messageText} sentDate={sentDate} />
-      <ChatBubble color={getChatBubbleColor()} name={sender} />
+      <ChatBubble color={sender.color} name={sender.username} />
     </div>
   );
 };

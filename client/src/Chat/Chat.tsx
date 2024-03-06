@@ -4,7 +4,10 @@ import styles from "./Chat.module.scss";
 
 interface MessageContent {
   text: string;
-  author: string;
+  author: {
+    username: string,
+    color: string
+  };
 }
 
 interface ChatProps {
@@ -46,7 +49,7 @@ export const Chat = (props: ChatProps) => {
         {messages.map((message: MessageContent) => {
           return (
             <Message
-              key={`msg-${message.author + message.text}`}
+              key={`msg-${message.author.username + message.text}`}
               messageText={message.text}
               sender={message.author}
               sentDate={new Date()}
