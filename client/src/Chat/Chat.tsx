@@ -1,68 +1,61 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import { Message } from "./Message/Message";
 import styles from "./Chat.module.scss";
 
-export const Chat = (props: {authenticationToken: string}) => {
-  const [messages, setMessages] = useState<any[]>([]);
-  const ws = new WebSocket(`ws://localhost:5000?token=${props.authenticationToken}`);
+interface MessageContent {
+  text: string;
+  author: string;
+}
 
-  ws.onmessage = (event) => {
-    if(event.data !== 'Connected to WebSocket server') {
-      console.log('Received message:', event.data);
-      setMessages(JSON.parse(event.data));
-    }
-  };
-  
+interface ChatProps {
+  authToken: string;
+}
+
+export const Chat = (props: ChatProps) => {
+  const { authToken } = props;
+  const [messages, setMessages] = useState<MessageContent[]>([]);
+
   const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(()=>{
-    console.log('re-render', messages);
-    
-  }, [messages])
+  const ws = new WebSocket(`ws://localhost:5000?token=${authToken}`);
+
+  useEffect(() => {
+    ws.onopen = () => {
+      ws.send("ccc");
+    };
+
+    ws.onmessage = (event) => {
+      console.log(event.data);
+      if (event.data !== "Connected to WebSocket server") {
+        console.log("Received message:", event.data);
+        setMessages(JSON.parse(event.data));
+      }
+    };
+  }, []);
+
+  const handleMessageCreate = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    if (!inputRef.current?.value) return;
+    const wsPayload = String(inputRef.current.value);
+    inputRef.current.value = "";
+    ws.send(wsPayload);
+  };
 
   return (
     <div className={styles.chatContainer}>
       <div className={styles.messagesWindow}>
-        {messages.length}
-        {
-           messages.map((message: any) => {
-            return (
-              <Message
-                messageText={message.text}
-                sender={message.author}
-                sentDate={new Date()}
-              />
-            )
-           })
-        }
-        {/* <Message
-          messageText="sfsadfdsafdsfdsfsdfsd fsdf sdf sdf sdf sdf sdfsdfsdf sdf sdf sdfsdf sdf"
-          sender="lenko"
-          sentDate={new Date()}
-        />
-        <Message
-          messageText="sfsadfdsafdsfdsfsdfsd fsdf sdf sdf sdf sdf sdfsdfsdf sdf sdf sdfsdf sdf"
-          sender="rero ivanov"
-          sentDate={new Date()}
-        />
-        <Message
-          messageText="sfsadfdsafdsfdsfsdfsd fsdf sdf sdf sdf sdf sdfsdfsdf sdf sdf sdfsdf sdf"
-          sender="rero lelo"
-          sentDate={new Date()}
-        />
-        <Message
-          messageText="sfsadfdsafdsfdsfsdfsd fsdf sdf sdf sdf sdf sdfsdfsdf sdf sdf sdfsdf sdf"
-          sender="rero lelo"
-          sentDate={new Date()}
-        /> */}
+        {messages.map((message: MessageContent) => {
+          return (
+            <Message
+              key={`msg-${message.author + message.text}`}
+              messageText={message.text}
+              sender={message.author}
+              sentDate={new Date()}
+            />
+          );
+        })}
       </div>
       <div className={styles.sendMessage}>
-        <form onSubmit={(e: any) => {
-          e.preventDefault()
-          console.log(e.target[0].value);
-          ws.send(e.target[0].value);
-        }}>
+        <form onSubmit={handleMessageCreate}>
           <input ref={inputRef} />
           <button type="submit">Send</button>
         </form>
