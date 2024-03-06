@@ -22,10 +22,6 @@ export const Chat = (props: ChatProps) => {
   const ws = new WebSocket(`ws://localhost:5000?token=${authToken}`);
 
   useEffect(() => {
-    ws.onopen = () => {
-      ws.send("ccc");
-    };
-
     ws.onmessage = (event) => {
       console.log(event.data);
       if (event.data !== "Connected to WebSocket server") {

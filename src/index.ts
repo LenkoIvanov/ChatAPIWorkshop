@@ -209,9 +209,8 @@ wss.on("connection", (ws: WebSocket, request: any) => {
   });
 
   ws.on("message", (message: string) => {
-    if (message.toString() !== "ccc") {
-      messages.push({ text: message.toString(), author });
-    }
+    messages.push({ text: message.toString(), author });
+    
     wss.clients.forEach((client) => {
       client.send(JSON.stringify(messages));
     });
