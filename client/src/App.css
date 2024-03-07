@@ -10,3 +10,24 @@
   justify-content: center;
   width: 600px;
 }
+
+.chatButton {
+  position: absolute;
+  top: 2rem;
+  right: 10rem;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid #4deeea;
+  background-color: #4deeea;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatButton:hover{
+  background-color: #cdfaf9;
+  border: 1px solid #cdfaf9;
+}

@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import styles from "./UserRegister.module.scss";
-import { createNewUser } from "../../httpLayer/rest";
+import { useRef } from 'react';
+import styles from './UserRegister.module.scss';
+import { createNewUser } from '../../httpLayer/rest';
 
 interface UserRegisterProps {
   handleNavigateBack: () => void;
@@ -11,21 +11,16 @@ export const UserRegister = (props: UserRegisterProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleUserRegistration = async (
-    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleUserRegistration = async (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     ev.preventDefault();
-    const resp = await createNewUser(
-      String(usernameRef.current?.value),
-      String(passwordRef.current?.value)
-    );
+    const resp = await createNewUser(String(usernameRef.current?.value), String(passwordRef.current?.value));
     if (resp === 200) {
-      window.alert("Succesful registration!");
+      window.alert('Succesful registration!');
       handleNavigateBack();
     }
-  //   } else {
-  //     window.alert("An error has occured! Try again later");
-  //   }
+    //   } else {
+    //     window.alert("An error has occured! Try again later");
+    //   }
   };
 
   return (

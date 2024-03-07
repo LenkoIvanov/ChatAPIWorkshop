@@ -20,10 +20,12 @@ function App() {
 
   return (
     <div className="mainContainer">
-      <button style={{ position: 'absolute', top: '2rem', right: '10rem' }} onClick={switchView}>
-        {showChat ? 'Login' : 'Chat'}
-      </button>
-      {showChat ? <Chat authToken={authenticationToken!} /> : <UserAuth authToken={authenticationToken!} />}
+      {authenticationToken && (
+        <button className="chatButton" onClick={switchView}>
+          {showChat ? 'Login' : 'Chat'}
+        </button>
+      )}
+      {showChat ? <Chat authToken={authenticationToken!} /> : <UserAuth authToken={authenticationToken || ''} />}
     </div>
   );
 }
