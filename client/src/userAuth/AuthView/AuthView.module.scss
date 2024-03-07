@@ -1,32 +1,61 @@
 .authView {
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     width: 600px;
 
-    button {
-        color: white;
-        width: 100px;
-        height: 45px;
-        border-radius: 20px;
-        margin-top: 10px;
-        align-self: center;
-        cursor: pointer;
-        border: none;
+    .btnContainer {
+        display: flex;
+        justify-content: space-evenly;
+        width: 600px;
 
-        &.usersBtn {
-            background-color: #440bd4;
+        button {
+            color: white;
+            width: 100px;
+            height: 45px;
+            border-radius: 20px;
+            margin-top: 10px;
+            align-self: center;
+            cursor: pointer;
+            border: none;
 
-            &:hover {
-                background-color: #af92f9;
+            &.usersBtn {
+                background-color: #9457eb;
+
+                &:hover {
+                    background-color: #af92f9;
+                }
+            }
+
+            &.signOutBtn {
+                background-color: #04005e;
+
+                &:hover {
+                    background-color: #8f8bff;
+                }
             }
         }
+    }
 
-        &.signOutBtn {
-            background-color: #04005e;
+    section {
+        background-color: #9457eb;
+        width: 600px;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 25px;
+        color: white;
 
-            &:hover {
-                background-color: #8f8bff;
-            }
+        div {
+            margin-left: 3rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        ul {
+            list-style-type: none;
         }
     }
 }

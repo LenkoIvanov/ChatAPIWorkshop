@@ -4,7 +4,7 @@ import { cancelRequest, getUsers } from '../../httpLayer/rest';
 import { authTokenKey } from '../../utils/constants';
 
 export const AuthView = () => {
-  const [users, setUsers] = useState<string[]>([]);
+  const [users, setUsers] = useState<string[]>([]); // ffix this in the backend
 
   const handleGetUsers = async () => {
     const users = await getUsers();
@@ -19,16 +19,19 @@ export const AuthView = () => {
 
   return (
     <div className={styles.authView}>
-      <button onClick={handleGetUsers} className={styles.usersBtn}>
-        Get Users
-      </button>
-      <button onClick={handleSignOut} className={styles.signOutBtn}>
-        Sign Out
-      </button>
+      <div className={styles.btnContainer}>
+        <button onClick={handleGetUsers} className={styles.usersBtn}>
+          Get Users
+        </button>
+        <button onClick={handleSignOut} className={styles.signOutBtn}>
+          Sign Out
+        </button>
+      </div>
       <section>
+        <div>User section:</div>
         <ul>
           {users.map((user) => {
-            return <li>{user}</li>;
+            return <li key={`${user.username}`}>{user.username}</li>;
           })}
         </ul>
       </section>

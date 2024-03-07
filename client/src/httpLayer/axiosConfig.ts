@@ -10,7 +10,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   function (response) {
     return response;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   },
   function (error) {
     console.error('Interceptor caught: ', error);

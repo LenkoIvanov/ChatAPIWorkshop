@@ -40,8 +40,12 @@ export const userLogin = async (username: string, password: string) => {
 };
 
 export const getUsers = async () => {
+  const authenticationToken = sessionStorage.getItem(authTokenKey); //interceptor for tomorrow
+  const config = {
+    headers: { Authorization: `Bearer ${authenticationToken}` }
+  };
   try {
-    const users = await axiosInstance.get(userUrl);
+    const users = await axiosInstance.get(userUrl, config);
     return users.data;
   } catch (err) {
     console.error(err);

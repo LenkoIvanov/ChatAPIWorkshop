@@ -22,20 +22,20 @@ export const Chat = (props: ChatProps) => {
 
   useEffect(() => {
     if (rendered.current) {
-      const ws = new WebSocket(`wss://localhost:5000`, ['Authorization', authToken]);
+      const ws = new WebSocket(`wss://chatapp.blubitoapps.com`, ['Authorization', authToken]);
 
-      ws.onopen = (event) => {
-        console.log(event);
-      };
+      ws.onopen = (openEvent) => {
+        console.log('Open event: ', openEvent);
 
-      ws.onmessage = (event) => {
-        if (event.data !== 'Connected to WebSocket server') {
-          setMessages(JSON.parse(event.data));
-        }
-      };
+        ws.onmessage = (msgEvent) => {
+          if (msgEvent.data !== 'Connected to WebSocket server') {
+            setMessages(JSON.parse(msgEvent.data));
+          }
+        };
 
-      ws.onclose = (event) => {
-        console.log(event);
+        ws.onclose = (closeEvent) => {
+          console.log('Close event: ', closeEvent);
+        };
       };
 
       connection.current = ws;
