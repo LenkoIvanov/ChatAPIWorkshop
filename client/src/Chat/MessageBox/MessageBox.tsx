@@ -1,5 +1,5 @@
-import { format } from "date-fns";
-import styles from "./MessageBox.module.scss";
+import { format } from 'date-fns';
+import styles from './MessageBox.module.scss';
 
 interface MessageProps {
   messageTxt: string;
@@ -10,7 +10,7 @@ export const MessageBox = (props: MessageProps) => {
   return (
     <div className={styles.messageContainer}>
       {messageTxt}
-      <div className={styles.dateSection}>{format(sentDate, "HH:mm")}</div>
+      <div className={styles.dateSection}>{format(sentDate, 'HH:mm')}</div>
     </div>
   );
 };

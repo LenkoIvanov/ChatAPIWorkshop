@@ -1,7 +1,7 @@
-import { useRef } from "react";
-import styles from "./UserLogin.module.scss";
-import { userLogin } from "../../httpLayer/rest";
-import { authTokenKey } from "../../utils/constants";
+import { useRef } from 'react';
+import styles from './UserLogin.module.scss';
+import { userLogin } from '../../httpLayer/rest';
+import { authTokenKey } from '../../utils/constants';
 
 interface UserLoginProps {
   handleNavigateBack: () => void;
@@ -12,16 +12,11 @@ export const UserLogin = (props: UserLoginProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleUserLogin = async (
-    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleUserLogin = async (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     ev.preventDefault();
-    const token = await userLogin(
-      String(usernameRef.current?.value),
-      String(passwordRef.current?.value)
-    );
+    const token = await userLogin(String(usernameRef.current?.value), String(passwordRef.current?.value));
     if (token) {
-      window.alert("Succesful login!");
+      window.alert('Succesful login!');
       sessionStorage.setItem(authTokenKey, token);
       window.location.reload();
     }

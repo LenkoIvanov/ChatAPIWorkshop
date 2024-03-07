@@ -1,1 +1,1 @@
-export const authTokenKey = "token";
+export const authTokenKey = 'token';

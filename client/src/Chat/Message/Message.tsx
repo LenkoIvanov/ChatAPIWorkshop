@@ -1,9 +1,9 @@
-import { jwtDecode } from "jwt-decode";
-import { authTokenKey } from "../../utils/constants";
-import { ChatBubble } from "../ChatBubble/ChatBubble";
-import { MessageBox } from "../MessageBox/MessageBox";
-import styles from "./Message.module.scss";
-import { AuthorInfo, JWTToken } from "../../utils/interfaces";
+import { jwtDecode } from 'jwt-decode';
+import { authTokenKey } from '../../utils/constants';
+import { ChatBubble } from '../ChatBubble/ChatBubble';
+import { MessageBox } from '../MessageBox/MessageBox';
+import styles from './Message.module.scss';
+import { AuthorInfo, JWTToken } from '../../utils/interfaces';
 
 interface MessageProps {
   messageText: string;
@@ -24,11 +24,7 @@ export const Message = (props: MessageProps) => {
   };
 
   return (
-    <div
-      className={`${styles.message} ${
-        isSenderLoggedIn() ? "" : styles.differentSender
-      }`}
-    >
+    <div className={`${styles.message} ${isSenderLoggedIn() ? '' : styles.differentSender}`}>
       <MessageBox messageTxt={messageText} sentDate={sentDate} />
       <ChatBubble color={sender.color} name={sender.username} />
     </div>
