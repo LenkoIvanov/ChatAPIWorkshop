@@ -22,9 +22,10 @@ export const UserRegister = (props: UserRegisterProps) => {
     if (resp === 200) {
       window.alert("Succesful registration!");
       handleNavigateBack();
-    } else {
-      window.alert("An error has occured! Try again later");
     }
+  //   } else {
+  //     window.alert("An error has occured! Try again later");
+  //   }
   };
 
   return (

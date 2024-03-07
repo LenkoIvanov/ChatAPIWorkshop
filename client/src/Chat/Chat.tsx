@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Message } from "./Message/Message";
 import styles from "./Chat.module.scss";
+import { AuthorInfo } from "../utils/interfaces";
 
 interface MessageContent {
   text: string;
-  author: {
-    username: string,
-    color: string
-  };
+  author: AuthorInfo;
 }
 
 interface ChatProps {

@@ -3,14 +3,11 @@ import { authTokenKey } from "../../utils/constants";
 import { ChatBubble } from "../ChatBubble/ChatBubble";
 import { MessageBox } from "../MessageBox/MessageBox";
 import styles from "./Message.module.scss";
-import { JWTToken } from "../../utils/interfaces";
+import { AuthorInfo, JWTToken } from "../../utils/interfaces";
 
 interface MessageProps {
   messageText: string;
-  sender: {
-    username: string,
-    color: string
-  }
+  sender: AuthorInfo;
   sentDate: Date;
 }
 

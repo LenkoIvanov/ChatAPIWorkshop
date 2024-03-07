@@ -24,9 +24,10 @@ export const UserLogin = (props: UserLoginProps) => {
       window.alert("Succesful login!");
       sessionStorage.setItem(authTokenKey, token);
       window.location.reload();
-    } else {
-      window.alert("An error has occured! Try again later");
     }
+    // } else {
+    //   window.alert("An error has occured! Try again later");
+    // }
   };
 
   return (

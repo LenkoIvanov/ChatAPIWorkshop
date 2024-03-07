@@ -3,3 +3,8 @@ export interface JWTToken {
   exp: number;
   iat: number;
 }
+
+export interface AuthorInfo {
+  username: string;
+  color: string;
+}
