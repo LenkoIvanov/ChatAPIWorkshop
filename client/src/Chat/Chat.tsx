@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Message } from "./Message/Message";
-import styles from "./Chat.module.scss";
-import { AuthorInfo } from "../utils/interfaces";
+import { useEffect, useRef, useState } from 'react';
+import { Message } from './Message/Message';
+import styles from './Chat.module.scss';
+import { AuthorInfo } from '../utils/interfaces';
 
 interface MessageContent {
   text: string;
@@ -16,35 +16,33 @@ export const Chat = (props: ChatProps) => {
   const { authToken } = props;
   const [messages, setMessages] = useState<MessageContent[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const connection = useRef<WebSocket>();
   const rendered = useRef<boolean>(false);
 
-  
   useEffect(() => {
-    if (rendered.current) { 
-      const ws = new WebSocket(`ws://localhost:5000`, ["Authorization", authToken]);
-      
+    if (rendered.current) {
+      const ws = new WebSocket(`wss://localhost:5000`, ['Authorization', authToken]);
+
       ws.onopen = (event) => {
         console.log(event);
-      }
+      };
 
       ws.onmessage = (event) => {
-        if (event.data !== "Connected to WebSocket server") {
+        if (event.data !== 'Connected to WebSocket server') {
           setMessages(JSON.parse(event.data));
         }
       };
-    
+
       ws.onclose = (event) => {
         console.log(event);
       };
-    
+
       connection.current = ws;
-    
+
       return () => {
-        if(connection.current)
-          connection.current.close();
-      } 
+        if (connection.current) connection.current.close();
+      };
     }
     rendered.current = true;
   }, []);
@@ -53,7 +51,7 @@ export const Chat = (props: ChatProps) => {
     ev.preventDefault();
     if (!inputRef.current?.value || !connection.current) return;
     const wsPayload = String(inputRef.current.value);
-    inputRef.current.value = "";
+    inputRef.current.value = '';
     connection.current.send(wsPayload);
   };
 

@@ -3,37 +3,4 @@
   justify-content: center;
   align-items: center;
   width: 600px;
-
-  .startView {
-    display: flex;
-    justify-content: space-evenly;
-    width: 600px;
-
-    button {
-      color: white;
-      width: 100px;
-      height: 45px;
-      border-radius: 20px;
-      margin-top: 10px;
-      align-self: center;
-      cursor: pointer;
-      border: none;
-
-      &.registerBtn {
-        background-color: #440bd4;
-
-        &:hover {
-          background-color: #af92f9;
-        }
-      }
-
-      &.loginBtn {
-        background-color: #04005e;
-
-        &:hover {
-          background-color: #8f8bff;
-        }
-      }
-    }
-  }
 }

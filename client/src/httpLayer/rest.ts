@@ -1,6 +1,6 @@
-import { authTokenKey } from "../utils/constants";
-import axiosInstance from "./axiosConfig";
-import { userDelayedUrl, loginUrl, registerUrl } from "./endpoints";
+import { authTokenKey } from '../utils/constants';
+import axiosInstance from './axiosConfig';
+import { userDelayedUrl, loginUrl, registerUrl, userUrl } from './endpoints';
 
 interface LoginResp {
   status: number;
@@ -13,7 +13,7 @@ let controller = new AbortController();
 
 const resetAbortController = () => {
   controller = new AbortController();
-}
+};
 
 export const createNewUser = async (username: string, password: string) => {
   try {
@@ -22,21 +22,31 @@ export const createNewUser = async (username: string, password: string) => {
       password: password
     });
     return apiResponse.status;
-   } catch (err) {
-     console.log("An error has occured while fetching the token: ", err);
-   }
+  } catch (err) {
+    console.log('An error has occured while fetching the token: ', err);
+  }
 };
 
 export const userLogin = async (username: string, password: string) => {
-   try {
+  try {
     const apiResponse = await axiosInstance.post<LoginResp>(loginUrl, {
       username: username,
-      password: password,
+      password: password
     });
     return apiResponse.data.token;
-   } catch (err) {
-     console.log("An error has occured while logging in: ", err);
-   }
+  } catch (err) {
+    console.log('An error has occured while logging in: ', err);
+  }
+};
+
+export const getUsers = async () => {
+  try {
+    const users = await axiosInstance.get(userUrl);
+    return users.data;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 };
 
 export const getSensitiveInformationDelayed = async () => {
@@ -47,15 +57,15 @@ export const getSensitiveInformationDelayed = async () => {
   };
 
   try {
-   const apiResponse = await axiosInstance.get<string[]>(userDelayedUrl, config);
-   return apiResponse.data;
+    const apiResponse = await axiosInstance.get<string[]>(userDelayedUrl, config);
+    return apiResponse.data;
   } catch (err) {
-    console.log("An error has occured while logging in: ", err);
+    console.log('An error has occured while logging in: ', err);
     return [];
   }
 };
 
 export const cancelRequest = () => {
-  controller.abort()
+  controller.abort();
   resetAbortController();
-}
+};
