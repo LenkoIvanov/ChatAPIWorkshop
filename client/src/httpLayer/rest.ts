@@ -9,6 +9,11 @@ interface LoginResp {
   success: boolean;
 }
 
+export interface Author {
+  username: string;
+  color: string;
+}
+
 let controller = new AbortController();
 
 const resetAbortController = () => {
@@ -39,7 +44,7 @@ export const userLogin = async (username: string, password: string) => {
   }
 };
 
-export const getUsers = async () => {
+export const getUsers = async (): Promise<Author[]> => {
   const authenticationToken = sessionStorage.getItem(authTokenKey); //interceptor for tomorrow
   const config = {
     headers: { Authorization: `Bearer ${authenticationToken}` }

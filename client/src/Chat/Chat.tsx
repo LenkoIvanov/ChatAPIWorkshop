@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Message } from './Message/Message';
 import styles from './Chat.module.scss';
 import { AuthorInfo } from '../utils/interfaces';
+import { Messages } from './Messages';
 
-interface MessageContent {
+export interface MessageContent {
   text: string;
   author: AuthorInfo;
 }
@@ -22,7 +22,7 @@ export const Chat = (props: ChatProps) => {
 
   useEffect(() => {
     if (rendered.current) {
-      const ws = new WebSocket(`wss://chatapp.blubitoapps.com`, ['Authorization', authToken]);
+      const ws = new WebSocket(`ws://localhost:5000`, ['Authorization', authToken]);
 
       ws.onopen = (openEvent) => {
         console.log('Open event: ', openEvent);
@@ -57,18 +57,7 @@ export const Chat = (props: ChatProps) => {
 
   return (
     <div className={styles.chatContainer}>
-      <div className={styles.messagesWindow}>
-        {messages.map((message: MessageContent) => {
-          return (
-            <Message
-              key={`msg-${message.author.username + message.text}`}
-              messageText={message.text}
-              sender={message.author}
-              sentDate={new Date()}
-            />
-          );
-        })}
-      </div>
+      <Messages messages={messages}></Messages>
       <div className={styles.sendMessage}>
         <form onSubmit={handleMessageCreate}>
           <input ref={inputRef} />

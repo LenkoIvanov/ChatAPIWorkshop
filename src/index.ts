@@ -237,8 +237,6 @@ wss.on("connection", (ws: WebSocket, request: any) => {
   ws.on("message", (message: string) => {
     messages.push({ text: message.toString(), author });
     
-    console.log('clients ---> ', wss.clients);
-    
     wss.clients.forEach((client) => {
       client.send(JSON.stringify(messages));
     });
