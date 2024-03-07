@@ -159,7 +159,13 @@ app.get("/chat", authenticateToken, async (req: Request, res: Response) => {
 
 app.get("/users", authenticateToken, async (req: Request, res: Response) => {
   try {
-    res.send(users);
+    res.send(users.map((user) => {
+        return {
+          username: user.username,
+          color: user.color
+        } 
+      })
+    );
   } catch (error: any) {
     res.status(400).json({
       status: 400,
@@ -168,11 +174,17 @@ app.get("/users", authenticateToken, async (req: Request, res: Response) => {
   }
 });
 
-app.get("/info-delayed", authenticateToken, async (req: Request, res: Response) => {
+app.get("/users-delayed", authenticateToken, async (req: Request, res: Response) => {
   try {
     setTimeout(() => {
-      res.send(['sensitive information', 'DO NOT READ UNLESS YOU ARE THE ADMIN', '4567 2342 5255 2345 * 3425', '5967 2331 2222 2345 * 3334']);
-    }, 10000)
+      res.send(users.map((user) => {
+        return {
+          username: user.username,
+          color: user.color
+        } 
+      })
+    );
+    }, 60000)
   } catch (error: any) {
     res.status(400).json({
       status: 400,

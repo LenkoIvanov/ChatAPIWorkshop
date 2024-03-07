@@ -1,6 +1,6 @@
 import { authTokenKey } from "../utils/constants";
 import axiosInstance from "./axiosConfig";
-import { infoDelayedUrl, loginUrl, registerUrl } from "./endpoints";
+import { userDelayedUrl, loginUrl, registerUrl } from "./endpoints";
 
 interface LoginResp {
   status: number;
@@ -9,7 +9,11 @@ interface LoginResp {
   success: boolean;
 }
 
-const controller = new AbortController();
+let controller = new AbortController();
+
+const resetAbortController = () => {
+  controller = new AbortController();
+}
 
 export const createNewUser = async (username: string, password: string) => {
   try {
@@ -43,7 +47,7 @@ export const getSensitiveInformationDelayed = async () => {
   };
 
   try {
-   const apiResponse = await axiosInstance.get<string[]>(infoDelayedUrl, config);
+   const apiResponse = await axiosInstance.get<string[]>(userDelayedUrl, config);
    return apiResponse.data;
   } catch (err) {
     console.log("An error has occured while logging in: ", err);
@@ -53,4 +57,5 @@ export const getSensitiveInformationDelayed = async () => {
 
 export const cancelRequest = () => {
   controller.abort()
+  resetAbortController();
 }
