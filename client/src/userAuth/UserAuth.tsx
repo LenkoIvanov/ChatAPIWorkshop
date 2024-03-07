@@ -9,5 +9,5 @@ interface UserAuthProps {
 export const UserAuth = (props: UserAuthProps) => {
   const { authToken } = props;
 
-  return <div className={styles.mainContainer}>{authToken.length > 0 ? <AuthView /> : <NonAuthView />}</div>;
+  return <div className={styles.mainContainer}>{authToken ? <AuthView /> : <NonAuthView />}</div>;
 };
