@@ -185,16 +185,17 @@ const wss = new WebSocket.Server({
 });
 
 wss.on("connection", (ws: WebSocket, request: any) => {
-  const token = request.url.split("?token=")[1]; // Extract token from URL
+  const token = request?.headers['sec-websocket-protocol']?.split(', ')[1];
+  
   if (!token) {
-    ws.close(401, "Unauthorized: Token missing");
+    ws.close(1008, "Unauthorized: Token missing");
     return;
   }
   let author: Author;
 
   jwt.verify(token, secret_key as any, function (err: any, decoded: any) {
     if (err) {
-      ws.close(401, "Unauthorized: Invalid token");
+      ws.close(1008, "Unauthorized: Invalid token");
       return;
     }
 

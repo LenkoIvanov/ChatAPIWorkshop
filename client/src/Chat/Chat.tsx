@@ -19,7 +19,7 @@ export const Chat = (props: ChatProps) => {
   const [messages, setMessages] = useState<MessageContent[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const ws = new WebSocket(`ws://localhost:5000?token=${authToken}`);
+  const ws = new WebSocket(`ws://localhost:5000`, ["Authorization", authToken]);
 
   useEffect(() => {
     ws.onmessage = (event) => {
@@ -28,6 +28,10 @@ export const Chat = (props: ChatProps) => {
         console.log("Received message:", event.data);
         setMessages(JSON.parse(event.data));
       }
+    };
+
+    ws.onclose = (event) => {
+      console.log(event);
     };
   }, []);
 
