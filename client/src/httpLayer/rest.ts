@@ -6,7 +6,13 @@ interface LoginResp {
   status: number;
   message: string;
   token: string;
-  success: boolean;
+  success: string;
+}
+
+interface RegisterResp {
+  message: string;
+  status: number;
+  success: string;
 }
 
 export interface Author {
@@ -22,10 +28,11 @@ const resetAbortController = () => {
 
 export const createNewUser = async (username: string, password: string) => {
   try {
-    const apiResponse = await axiosInstance.post(registerUrl, {
+    const apiResponse = await axiosInstance.post<RegisterResp>(registerUrl, {
       username: username,
       password: password
     });
+    console.log(apiResponse);
     return apiResponse.status;
   } catch (err) {
     console.log('An error has occured while fetching the token: ', err);
