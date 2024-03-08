@@ -1,4 +1,3 @@
-import { authTokenKey } from '../utils/constants';
 import axiosInstance from './axiosConfig';
 import { userDelayedUrl, loginUrl, registerUrl, userUrl } from './endpoints';
 
@@ -52,12 +51,8 @@ export const userLogin = async (username: string, password: string) => {
 };
 
 export const getUsers = async (): Promise<Author[]> => {
-  const authenticationToken = sessionStorage.getItem(authTokenKey); //interceptor for tomorrow
-  const config = {
-    headers: { Authorization: `Bearer ${authenticationToken}` }
-  };
   try {
-    const users = await axiosInstance.get<Author[]>(userUrl, config);
+    const users = await axiosInstance.get<Author[]>(userUrl);
     return users.data;
   } catch (err) {
     console.error(err);
@@ -66,9 +61,7 @@ export const getUsers = async (): Promise<Author[]> => {
 };
 
 export const getSensitiveInformationDelayed = async (): Promise<Author[]> => {
-  const authenticationToken = sessionStorage.getItem(authTokenKey);
   const config = {
-    headers: { Authorization: `Bearer ${authenticationToken}` },
     signal: controller.signal
   };
 
