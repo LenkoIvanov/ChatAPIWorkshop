@@ -59,3 +59,33 @@
         }
     }
 }
+
+.overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    background: rgb(168, 203, 228);
+    padding: 4rem 2rem;
+
+    span {
+        font-size: 2rem;
+        color: rgb(130, 80, 222);
+        display: block;
+    }
+
+    button {
+        margin-left: 12rem;
+        display: block;
+        color: white;
+        width: 100px;
+        height: 45px;
+        border-radius: 20px;
+        margin-top: 10px;
+        align-self: center;
+        cursor: pointer;
+        border: none;
+        background-color: #9457eb;
+    }
+}

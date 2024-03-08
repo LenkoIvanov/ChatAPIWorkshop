@@ -50,7 +50,7 @@ export const getUsers = async (): Promise<Author[]> => {
     headers: { Authorization: `Bearer ${authenticationToken}` }
   };
   try {
-    const users = await axiosInstance.get(userUrl, config);
+    const users = await axiosInstance.get<Author[]>(userUrl, config);
     return users.data;
   } catch (err) {
     console.error(err);
@@ -58,7 +58,7 @@ export const getUsers = async (): Promise<Author[]> => {
   }
 };
 
-export const getSensitiveInformationDelayed = async () => {
+export const getSensitiveInformationDelayed = async (): Promise<Author[]> => {
   const authenticationToken = sessionStorage.getItem(authTokenKey);
   const config = {
     headers: { Authorization: `Bearer ${authenticationToken}` },
@@ -66,7 +66,7 @@ export const getSensitiveInformationDelayed = async () => {
   };
 
   try {
-    const apiResponse = await axiosInstance.get<string[]>(userDelayedUrl, config);
+    const apiResponse = await axiosInstance.get<Author[]>(userDelayedUrl, config);
     return apiResponse.data;
   } catch (err) {
     console.log('An error has occured while logging in: ', err);
