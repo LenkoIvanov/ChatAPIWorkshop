@@ -4,13 +4,17 @@ import styles from './MessageBox.module.scss';
 interface MessageProps {
   messageTxt: string;
   sentDate: Date;
+  author: string;
 }
 export const MessageBox = (props: MessageProps) => {
-  const { messageTxt, sentDate } = props;
+  const { messageTxt, sentDate, author } = props;
   return (
     <div className={styles.messageContainer}>
       {messageTxt}
-      <div className={styles.dateSection}>{format(sentDate, 'HH:mm')}</div>
+      <div className={styles.dateSection}>
+        <span>{author}</span>
+        {format(sentDate, 'HH:mm')}
+      </div>
     </div>
   );
 };

@@ -25,7 +25,7 @@ export const Message = (props: MessageProps) => {
 
   return (
     <div className={`${styles.message} ${isSenderLoggedIn() ? '' : styles.differentSender}`}>
-      <MessageBox messageTxt={messageText} sentDate={sentDate} />
+      <MessageBox author={sender.username} messageTxt={messageText} sentDate={sentDate} />
       <ChatBubble color={sender.color} name={sender.username} />
     </div>
   );
