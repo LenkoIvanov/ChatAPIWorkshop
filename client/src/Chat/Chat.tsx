@@ -45,6 +45,7 @@ export const Chat = (props: ChatProps) => {
       };
     }
     rendered.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMessageCreate = (ev: React.FormEvent<HTMLFormElement>) => {

@@ -15,7 +15,6 @@ export const AuthView = () => {
     setLoading(false);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleFastGetUsers = async () => {
     const users = await getUsers();
     setUsers(users);
